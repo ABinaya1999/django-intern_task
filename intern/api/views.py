@@ -125,8 +125,8 @@ def sign_out(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def mark_attendance(request):
-    supervisor_profile = UserProfile.objects.get(user=request.user)
-    if supervisor_profile.role != UserProfile.INTERN:
+    intern_profile = UserProfile.objects.get(user=request.user)
+    if intern_profile.role != UserProfile.INTERN:
         return Response({'error': 'Attendance for intern only'}, status=status.HTTP_403_FORBIDDEN)
     attendance_data = {'user': request.user.id}
     serializer = AttendanceSerializer(data=attendance_data)
