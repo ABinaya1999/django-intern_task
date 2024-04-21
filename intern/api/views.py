@@ -140,10 +140,6 @@ def mark_attendance(request):
 @permission_classes([IsAuthenticated])
 def mark_task_complete(request):
     task_id = request.data.get('task_id')
-    supervisor_profile = UserProfile.objects.get(user=request.user)
-    if supervisor_profile.role != UserProfile.INTERN:
-        return Response({'error': 'Intern can mark complete'}, status=status.HTTP_403_FORBIDDEN)
-    
     try:
         task = Task.objects.get(pk=task_id, assigned_to=request.user)
         task.completed = True
@@ -156,14 +152,12 @@ def mark_task_complete(request):
 @permission_classes([IsAdminUser])
 def assign_task(request):
     try:
-        intern_username = request.data.get('intern_username')
-        intern_user = User.objects.get(username=intern_username)
-        task_data = {
-            'title': request.data.get('title'),
-            'description': request.data.get('description'),
-            'assigned_to': intern_user.pk
-        }
-        serializer = TaskSerializer(data=task_data)
+        # task_data = {
+        #     'title': request.data.get('title'),
+        #     'description': request.data.get('description'),
+        #     'assigned_to': request.data.get('assigned_to)
+        # }
+        serializer = TaskSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
