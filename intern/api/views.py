@@ -122,7 +122,7 @@ def sign_out(request):
         return Response({'message': 'Sign out successful'}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(['GET']) 
 @permission_classes([IsAuthenticated])
 def mark_attendance(request):
     intern_profile = UserProfile.objects.get(user=request.user)
@@ -132,7 +132,7 @@ def mark_attendance(request):
     serializer = AttendanceSerializer(data=attendance_data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({'message': 'Attendance done'}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
