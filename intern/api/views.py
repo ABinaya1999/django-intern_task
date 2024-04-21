@@ -151,18 +151,17 @@ def mark_task_complete(request):
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def assign_task(request):
-    try:
-        # task_data = {
-        #     'title': request.data.get('title'),
-        #     'description': request.data.get('description'),
-        #     'assigned_to': request.data.get('assigned_to)
-        # }
-        serializer = TaskSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    except:
-        return Response({'details': 'No Task added'}, status=status.HTTP_404_NOT_FOUND)
+    # task_data = {
+    #     'title': request.data.get('title'),
+    #     'description': request.data.get('description'),
+    #     'assigned_to': request.data.get('assigned_to)
+    # }
+    serializer = TaskSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
